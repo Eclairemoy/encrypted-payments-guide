@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv').config()
+const Evervault = require('@evervault/sdk');
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -11,10 +12,14 @@ const PaymentProviders = {
   Stripe: require('./paymentProviders/stripe.js')
 }
 
+const evervault = new Evervault(process.env.EVERVAULT_API_KEY);
+const mySecret = process.env.EVERVAULT_API_KEY;
+evervault.enableOutboundRelay();
+
 app.post('/api/checkout', async (req, res) => {
   const { card } = req.body
   console.log(card)
-  
+
   const paymentOptions = {
     card: card,
     amount: 100,
