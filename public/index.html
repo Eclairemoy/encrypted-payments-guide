@@ -13,10 +13,11 @@
         Checkout
       </button>
     </form>
-
+    <script src="https://js.evervault.com/v2"></script>
     <script src="toast.js" type="module"></script>
     <script>
-      // code codes here
+      const evervault = new Evervault('team_yourteamid', 'app_yourappid');
+      const inputs = evervault.inputs('card-element');
     </script>
   </body>
 </html>
