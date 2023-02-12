@@ -9,7 +9,8 @@ app.use(express.static('public'));
 app.use(express.json());
 
 const PaymentProviders = {
-  Stripe: require('./paymentProviders/stripe.js')
+  Stripe: require('./paymentProviders/stripe.js'),
+  CheckoutCom: require('./paymentProviders/checkoutcom.js'),
 }
 
 const evervault = new Evervault(process.env.EVERVAULT_API_KEY);
@@ -28,6 +29,9 @@ app.post('/api/checkout', async (req, res) => {
   }
 
   let paymentProvider = PaymentProviders.Stripe;
+  if (card.bin === "424242") {
+    paymentProvider = PaymentProviders.CheckoutCom;
+  }
   const payment = await paymentProvider.makePayment(paymentOptions);
 
   res.send(payment);
